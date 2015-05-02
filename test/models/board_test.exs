@@ -69,6 +69,27 @@ defmodule Conway.BoardTest do
   end
 
   with "next_board" do
+    should "return the next board state" do
+      blinker_cells = [
+        false, false, false, false, false,
+        false, false, false, false, false,
+        false, true,  true,  true,  false,
+        false, false, false, false, false,
+        false, false, false, false, false
+      ]
+
+      board = %Conway.Board{cells: blinker_cells, width: 5, height: 5}
+      next_board = Conway.Board.next_board(board)
+      assert next_board.cells == [
+        false, false, false, false, false,
+        false, false,  true, false, false,
+        false, false,  true, false,  false,
+        false, false,  true, false, false,
+        false, false, false, false, false
+      ]
+      assert next_board.height == 5
+      assert next_board.width == 5
+    end
   end
 
 end

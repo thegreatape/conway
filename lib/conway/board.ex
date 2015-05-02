@@ -25,4 +25,11 @@ defmodule Conway.Board do
       _ -> false
     end
   end
+
+  def next_board(board = %Conway.Board{height: height, width: width}) do
+    next_cells = for y <- 0..height-1, x <- 0..width-1 do
+      next_cell get(board, x, y), neighbors(board, x, y)
+    end
+    %Conway.Board{cells: next_cells, height: height, width: width}
+  end
 end
