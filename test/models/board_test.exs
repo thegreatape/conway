@@ -1,16 +1,18 @@
 defmodule Conway.BoardTest do
   use ExUnit.Case
-  setup do
+  use ShouldI
+
+  setup context do
     cells = [
       "a", "b", "c",
       "d", "e", "f",
       "g", "h", "i"
     ]
 
-    {:ok, board: %Conway.Board{cells: cells, height: 3, width: 3} }
+    Dict.put context, :board, %Conway.Board{cells: cells, height: 3, width: 3}
   end
 
-  test "getting cell by x,y", context do
+  should "get cells by x,y", context do
     assert Conway.Board.get(context.board, 0, 0) == "a"
     assert Conway.Board.get(context.board, 1, 0) == "b"
     assert Conway.Board.get(context.board, 2, 0) == "c"
@@ -22,7 +24,13 @@ defmodule Conway.BoardTest do
     assert Conway.Board.get(context.board, 2, 2) == "i"
   end
 
-  test "neighbors at board edges", context do
+  should "get neighbors of a cell", context do
+    neighbors = Conway.Board.neighbors(context.board, 1, 1)
+    Enum.each ~w(a b c d f g h i), fn(val) -> assert val in neighbors end
+    refute "e" in neighbors
+  end
+
+  should "get neighbors at board edges", context do
     neighbors = Conway.Board.neighbors(context.board, 2, 2)
     Enum.each ~w(a b c d e f g h), fn(val) -> assert val in neighbors end
     refute "i" in neighbors
@@ -32,9 +40,35 @@ defmodule Conway.BoardTest do
     refute "a" in neighbors
   end
 
-  test "getting neighbors of a cell", context do
-    neighbors = Conway.Board.neighbors(context.board, 1, 1)
-    Enum.each ~w(a b c d f g h i), fn(val) -> assert val in neighbors end
-    refute "e" in neighbors
+  with "next_cell" do
+    with "live cells" do
+      should "die with fewer than two live neighbors" do
+        assert Conway.Board.next_cell(true, [false, false, false, false]) == false
+        assert Conway.Board.next_cell(true, [false, false, true, false]) == false
+      end
+
+      should "live with two to three live neighbors" do
+        assert Conway.Board.next_cell(true, [true, false, true, false]) == true
+        assert Conway.Board.next_cell(true, [true, false, true, true]) == true
+      end
+
+      should "die with more than three live neighbors" do
+        assert Conway.Board.next_cell(true, [true, true, true, true]) == false
+      end
+    end
+
+    with "dead cells" do
+      should "become live with exactly three live neighbors" do
+        assert Conway.Board.next_cell(false, [true, true, false, true]) == true
+      end
+
+      should "remain dead otherwise" do
+        assert Conway.Board.next_cell(false, [true, false, false, true]) == false
+      end
+    end
   end
+
+  with "next_board" do
+  end
+
 end
