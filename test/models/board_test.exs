@@ -92,4 +92,25 @@ defmodule Conway.BoardTest do
     end
   end
 
+  with "activate_cells" do
+    setup context do
+      cells = [
+        false, false, false,
+        false, false, false,
+        false, true,  true
+      ]
+
+      Dict.put context, :board, %Conway.Board{cells: cells, height: 3, width: 3}
+    end
+
+    should "flip the cells to live", context do
+      board = Conway.Board.activate_cells(context.board, [[0,0], [1,1], [1,2]])
+      assert board.cells == [
+        true,  false, false,
+        false, true,  false,
+        false, true,  true
+      ]
+    end
+  end
+
 end
