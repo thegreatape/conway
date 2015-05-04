@@ -1,37 +1,10 @@
 defmodule Conway.Board do
-  @interval 1000
-
   defstruct cells: [], height: 0, width: 0
-
-  def start_link(board) do
-    pid = Agent.start_link(fn -> board end, name: __MODULE__)
-    loop
-    pid
-  end
-
-  def loop do
-    receive do
-      { :update, coordinates } -> IO.puts coordinates
-    after
-      @interval ->
-        tick
-        IO.puts inspect current_board
-        loop
-    end
-  end
 
   def activate_cells(board, cell_coordinates) do
     Enum.reduce cell_coordinates, board, fn ([ x | [y | []]], board) ->
       set(board, x, y, true)
     end
-  end
-
-  def tick do
-    Agent.update(__MODULE__, fn (board) -> next_board(board) end)
-  end
-
-  def current_board do
-    Agent.get(__MODULE__, fn (board) -> board end)
   end
 
   def neighbors(board, x, y) do

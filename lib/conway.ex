@@ -11,8 +11,8 @@ defmodule Conway do
       supervisor(Conway.Endpoint, []),
       # Start the Ecto repository
       worker(Conway.Repo, []),
-      # Here you could define other workers and supervisors as children
-      # worker(Conway.Worker, [arg1, arg2, arg3]),
+
+      worker(Conway.BoardServer, [[height: 5, width: 5]]),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
