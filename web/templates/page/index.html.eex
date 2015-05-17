@@ -1,5 +1,21 @@
 <div class="row">
-  <table class="board">
-  </table>
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+  <p class="centered">Hold down shift and click to select cells; release the shift key to activate them.</p>
+  <table class="board"></table>
+
+  <h2>What's going on here?</h2>
+
+  <p>This is a massively multiplayer implementation of <a href="">Conway's Game of Life</a>. The cells behave according to 4 simple rules:</p>
+
+  <ol>
+    <li>Any live cell with fewer than two live neighbours dies, as if caused by under-population.</li>
+    <li>Any live cell with two or three live neighbours lives on to the next generation.</li>
+    <li>Any live cell with more than three live neighbours dies, as if by overcrowding.</li>
+    <li>Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.</li>
+  </ol>
+  <p>I wrote this to explore the real-time message capabilities of <a href="http://elixir-lang.org/">Elixir</a> and the <a href="http://www.phoenixframework.org/">Phoenix</a> framework. It was fun!</p>
+</div>
+  <div class="col-md-2"></div>
 </div>
 

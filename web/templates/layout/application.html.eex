@@ -7,13 +7,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello Phoenix!</title>
+    <title>Conway's Game of Life</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
   <body>
-    <div class="container-fluid">
+    <div class="container">
       <div class="header">
+        <h1>Conway's Game of Life</h1>
       </div>
 
       <p class="alert alert-info"><%= get_flash(@conn, :info) %></p>
@@ -22,6 +23,7 @@
       <%= @inner %>
 
       <div class="footer">
+        By <a href="http://thegreata.pe">Thomas Mayfield<a>
       </div>
 
     </div> <!-- /container -->
