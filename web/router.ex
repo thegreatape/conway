@@ -12,6 +12,10 @@ defmodule Conway.Router do
     plug :accepts, ["json"]
   end
 
+  socket "/ws", Conway do
+    channel "board:*", BoardChannel
+  end
+
   scope "/", Conway do
     pipe_through :browser # Use the default browser stack
 

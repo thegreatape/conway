@@ -29,8 +29,10 @@ defmodule Conway.BoardServer do
     {:reply, board, board}
   end
 
-  def handle_info(msg, board) do
+  def handle_info(_msg, board) do
     :erlang.start_timer(@interval, self(), :tick)
-    {:noreply, Conway.Board.next_board(board)}
+    new_board = Conway.Board.next_board(board)
+    Conway.BoardChannel.broadcast_board(new_board)
+    {:noreply, new_board}
   end
 end
