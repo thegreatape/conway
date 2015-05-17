@@ -1,7 +1,7 @@
 defmodule Conway.BoardServer do
   use GenServer
 
-  @interval 1000
+  @interval 500
 
   def start_link([height: height, width: width]) do
     empty_cells = Enum.map 1..(height*width), fn _ -> false end
