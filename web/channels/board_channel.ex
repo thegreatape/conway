@@ -13,4 +13,10 @@ defmodule Conway.BoardChannel do
     broadcast! socket, "update", board
     {:noreply, socket}
   end
+
+  def handle_in("activate_cells", coords, socket) do
+    Conway.BoardServer.activate_cells(coords)
+    broadcast! socket, "update", Conway.BoardServer.current_board
+    {:noreply, socket}
+  end
 end

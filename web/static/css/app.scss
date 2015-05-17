@@ -90,6 +90,11 @@ form.link, form.button {
 
 .board {
   margin: 0 auto;
+  &.selecting{
+    td:hover {
+      background: #9966FF;
+    }
+  }
   tr td {
     height: 10px;
     width: 10px;
@@ -97,5 +102,13 @@ form.link, form.button {
     &.live {
       background: black;
     }
+    &:hover {
+      cursor: pointer;
+      background: #ccc;
+    }
+    &.selected {
+      background: purple !important;
+    }
   }
+
 }
