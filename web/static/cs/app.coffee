@@ -22,6 +22,16 @@ class Board
     $(el).on 'mousedown', 'td', (evt) =>
       @cellClicked(evt)
 
+    $('body').on 'mouseup', 'td', (evt) =>
+      @mousedown = false
+
+    $('body').on 'mousedown', 'td', (evt) =>
+      @mousedown = true
+
+    $(el).on 'mouseover', 'td', (evt) =>
+      return unless @mousedown
+      @cellClicked(evt)
+
     socket.connect()
     socket.join("board:state", {}).receive "ok", (chan) =>
       @chan = chan
@@ -40,7 +50,6 @@ class Board
 
     @selected = {}
     $('td.selected').removeClass('selected').addClass('live')
-
 
   cellClicked: (evt) ->
     return unless @selecting
