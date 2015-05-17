@@ -12,13 +12,15 @@ defmodule Conway do
       # Start the Ecto repository
       worker(Conway.Repo, []),
 
-      worker(Conway.BoardServer, [[height: 5, width: 5]]),
+      worker(Conway.BoardServer, [[height: 50, width: 50]]),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Conway.Supervisor]
-    Supervisor.start_link(children, opts)
+    pid = Supervisor.start_link(children, opts)
+    Conway.BoardServer.activate_cells([ [1,2], [2,2], [3,2] ])
+    pid
   end
 
   # Tell Phoenix to update the endpoint configuration
