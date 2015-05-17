@@ -7,9 +7,20 @@ defmodule Conway.Board do
     end
   end
 
-  def neighbors(board, x, y) do
+  def neighbors(board = %Conway.Board{height: height, width: width}, x, y) do
     for x_offset <- -1..1, y_offset <- -1..1, !(x_offset == 0 && y_offset == 0) do
-      get(board, rem(x + x_offset, board.width), rem(y + y_offset, board.height))
+      neighbor_x = case x + x_offset do
+        nx when nx >= width -> rem(nx, width)
+        nx when nx < 0 -> nx + width
+        nx -> nx
+      end
+      neighbor_y = case y + y_offset do
+        ny when ny >= height -> rem(ny, height)
+        ny when ny < 0 -> ny + height
+        ny -> ny
+      end
+
+      get(board, neighbor_x, neighbor_y)
     end
   end
 

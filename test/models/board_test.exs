@@ -3,11 +3,11 @@ defmodule Conway.BoardTest do
   use ShouldI
 
   setup context do
-    cells = [
-      "a", "b", "c",
-      "d", "e", "f",
-      "g", "h", "i"
-    ]
+    cells = ~w{
+      a b c
+      d e f
+      g h i
+    }
 
     Dict.put context, :board, %Conway.Board{cells: cells, height: 3, width: 3}
   end
@@ -30,7 +30,26 @@ defmodule Conway.BoardTest do
     refute "e" in neighbors
   end
 
+  should "get edgewise neighbors of a cell" do
+    cells = ~w{
+      a b c d e
+      d g h i j
+      k l m n o
+      p q r s t
+      u v w x y
+    }
+    board = %Conway.Board{height: 5, width: 5, cells: cells}
+
+    neighbors = Conway.Board.neighbors(board, 0, 2)
+    Enum.each ~w(d g l q p t o j), fn(val) -> assert val in neighbors end
+    refute "k" in neighbors
+  end
+
   should "get neighbors at board edges", context do
+    # a b c
+    # d e f
+    # g h i
+
     neighbors = Conway.Board.neighbors(context.board, 2, 2)
     Enum.each ~w(a b c d e f g h), fn(val) -> assert val in neighbors end
     refute "i" in neighbors
@@ -89,6 +108,26 @@ defmodule Conway.BoardTest do
       ]
       assert next_board.height == 5
       assert next_board.width == 5
+    end
+
+    should "work with edges" do
+      blinker_cells = [
+        false, false, false, false, false,
+        false, false, false, false, false,
+        true,  true,  false, false,  true,
+        false, false, false, false, false,
+        false, false, false, false, false
+      ]
+
+      board = %Conway.Board{cells: blinker_cells, width: 5, height: 5}
+      next_board = Conway.Board.next_board(board)
+      assert next_board.cells == [
+        false, false, false, false, false,
+        true,  false, false, false, false,
+        true,  false, false, false, false,
+        true,  false, false, false, false,
+        false, false, false, false, false
+      ]
     end
   end
 
