@@ -99,6 +99,11 @@ form.link, form.button {
     height: 10px;
     width: 10px;
     border: 1px solid #ccc;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
     &.live {
       background: black;
     }
@@ -110,5 +115,8 @@ form.link, form.button {
       background: purple !important;
     }
   }
+}
 
+.centered, .header, .footer {
+  text-align: center;
 }
